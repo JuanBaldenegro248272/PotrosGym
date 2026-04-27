@@ -16,9 +16,9 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="page-title">Dashboard</h1>
-      
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
-        
+
         <div className="card">
           <h3 className="card-title">Entrenador en turno</h3>
           <div style={{ margin: '1rem 0' }}>
@@ -28,6 +28,7 @@ const Dashboard = () => {
           </div>
           <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>Luis Campoy</div>
           <div style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '1rem' }}>Horario: 10:00 - 13:00</div>
+          <div style={{ flex: 1 }}></div>
           <button className="btn-primary">Ver información</button>
         </div>
 
@@ -35,6 +36,7 @@ const Dashboard = () => {
           <h3 className="card-title">Accesos registrados hoy</h3>
           <div className="card-value" style={{ margin: '1rem 0' }}>120</div>
           <div className="card-subtitle">Accesos</div>
+          <div style={{ flex: 1 }}></div>
           <button className="btn-primary">Ver reporte</button>
         </div>
 
@@ -81,6 +83,7 @@ const Dashboard = () => {
           <h3 className="card-title">Ventas y Rentas del día</h3>
           <div className="card-value" style={{ margin: '1rem 0' }}>58</div>
           <div className="card-subtitle">Artículos</div>
+          <div style={{ flex: 1 }}></div>
           <button className="btn-primary">Ver reporte</button>
         </div>
 
@@ -102,34 +105,38 @@ const Dashboard = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-        
+
         <div>
           <h2 style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: '1rem' }}>Anuncios</h2>
           <div className="card" style={{ padding: '0', alignItems: 'stretch' }}>
-            
-            <div style={{ display: 'flex', padding: '1.5rem', borderBottom: '1px solid var(--border-color)', gap: '1rem', alignItems: 'center' }}>
-              <AlertTriangle size={32} color="#111827" />
-              <p style={{ fontSize: '0.875rem', fontWeight: '600' }}>El área de pesas libres permanecerá cerrada hoy de 14:00 a 16:00 h por limpieza profunda y mantenimiento de equipos.</p>
-            </div>
-            
-            <div style={{ display: 'flex', padding: '1.5rem', borderBottom: '1px solid var(--border-color)', gap: '1rem', alignItems: 'center' }}>
-              <Calendar size={32} color="#111827" />
-              <p style={{ fontSize: '0.875rem', fontWeight: '600' }}>Nuestras instalaciones permanecerán cerradas el día 1 de mayo con motivo del Día del Trabajo. Reanudaremos actividades normales el día 2 de mayo en los horarios habituales.</p>
-            </div>
+            <div style={{ padding: '0.5rem 1.5rem 1rem 1.5rem' }}>
+              <div style={{ display: 'flex', padding: '1rem 0', borderBottom: '1px solid var(--border-color)', gap: '1rem', alignItems: 'center' }}>
+                <AlertTriangle size={24} color="#111827" />
+                <p style={{ fontSize: '0.85rem', fontWeight: '600' }}>El área de pesas libres permanecerá cerrada hoy de 14:00 a 16:00 h por limpieza profunda y mantenimiento.</p>
+              </div>
 
-            <div style={{ display: 'flex', padding: '1.5rem', gap: '1rem', alignItems: 'center' }}>
-              <ClipboardList size={32} color="#111827" />
-              <p style={{ fontSize: '0.875rem', fontWeight: '600' }}>Las fechas para reinscripciones del próximo periodo son del 15 al 21 de abril. Favor de consultar su portal de alumno y realizar su pago en tiempo para evitar recargos.</p>
-            </div>
+              <div style={{ display: 'flex', padding: '1rem 0', borderBottom: '1px solid var(--border-color)', gap: '1rem', alignItems: 'center' }}>
+                <Calendar size={24} color="#111827" />
+                <p style={{ fontSize: '0.85rem', fontWeight: '600' }}>Nuestras instalaciones permanecerán cerradas el día 1 de mayo con motivo del Día del Trabajo.</p>
+              </div>
 
+              <div style={{ display: 'flex', padding: '1rem 0', gap: '1rem', alignItems: 'center' }}>
+                <ClipboardList size={24} color="#111827" />
+                <p style={{ fontSize: '0.85rem', fontWeight: '600' }}>Las fechas para reinscripciones son del 15 al 21 de abril. Favor de realizar su pago en tiempo.</p>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                <button className="btn-primary" style={{ width: 'auto' }}>Ver mas</button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div>
           <h2 style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: '1rem' }}>Alumnos</h2>
           <div className="card" style={{ padding: '0', alignItems: 'stretch' }}>
-            <div style={{ padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '1rem' }}>Accesos recientes</h3>
+            <div style={{ padding: '0.5rem 1.5rem 1rem 1.5rem' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: '700', marginBottom: '0.5rem', textAlign: 'center' }}>Accesos recientes</h3>
               <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ background: '#f3f4f6', borderBottom: '1px solid var(--border-color)' }}>
