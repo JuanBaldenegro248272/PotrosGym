@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Fingerprint, ShoppingCart } from 'lucide-react';
+import { Home, Fingerprint, ShoppingCart, Users } from 'lucide-react';
 import logo from '../assets/logo.png';
 
 const Sidebar = () => {
@@ -10,23 +10,30 @@ const Sidebar = () => {
         <img src={logo} alt="logo Potros" />
       </div>
       <nav className="sidebar-nav">
-        <NavLink 
-          to="/" 
+        <NavLink
+          to="/"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
           end
         >
           <Home size={24} />
           Inicio
         </NavLink>
-        <NavLink 
-          to="/accesos" 
+        <NavLink
+          to="/alumnos"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          <Users size={24} />
+          Alumnos
+        </NavLink>
+        <NavLink
+          to="/accesos"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <Fingerprint size={24} />
           Accesos
         </NavLink>
-        <NavLink 
-          to="/ventas" 
+        <NavLink
+          to="/ventas"
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           <ShoppingCart size={24} />

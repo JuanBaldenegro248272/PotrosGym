@@ -26,15 +26,15 @@ const Dashboard = () => {
               <User size={40} color="#111827" />
             </div>
           </div>
-          <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>Luis Campoy</div>
-          <div style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '1rem' }}>Horario: 10:00 - 13:00</div>
+          <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>Sin asignar</div>
+          <div style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '1rem' }}>Horario: --:--</div>
           <div style={{ flex: 1 }}></div>
           <button className="btn-primary">Ver información</button>
         </div>
 
         <div className="card">
           <h3 className="card-title">Accesos registrados hoy</h3>
-          <div className="card-value" style={{ margin: '1rem 0' }}>120</div>
+          <div className="card-value" style={{ margin: '1rem 0' }}>0</div>
           <div className="card-subtitle">Accesos</div>
           <div style={{ flex: 1 }}></div>
           <button className="btn-primary">Ver reporte</button>
@@ -81,7 +81,7 @@ const Dashboard = () => {
 
         <div className="card">
           <h3 className="card-title">Ventas y Rentas del día</h3>
-          <div className="card-value" style={{ margin: '1rem 0' }}>58</div>
+          <div className="card-value" style={{ margin: '1rem 0' }}>0</div>
           <div className="card-subtitle">Artículos</div>
           <div style={{ flex: 1 }}></div>
           <button className="btn-primary">Ver reporte</button>
@@ -146,18 +146,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[
-                    { id: '000248272', nombre: 'Juan Rascon', fechaHora: '03/22/26 10:48 A.M.' },
-                    { id: '000123453', nombre: 'Jose Reyes', fechaHora: '03/22/26 10:48 A.M.' },
-                    { id: '000213254', nombre: 'Marina Pérez', fechaHora: '03/22/26 10:48 A.M.' },
-                    { id: '000341234', nombre: 'Sara Torres', fechaHora: '03/22/26 10:48 A.M.' }
-                  ].map((accesoReciente, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                      <td style={{ padding: '1rem 0.75rem', fontWeight: '600' }}>{accesoReciente.id}</td>
-                      <td style={{ padding: '1rem 0.75rem', fontWeight: '600' }}>{accesoReciente.nombre}</td>
-                      <td style={{ padding: '1rem 0.75rem', fontWeight: '600' }}>{accesoReciente.fechaHora}</td>
-                    </tr>
-                  ))}
+                  {[]}
                 </tbody>
               </table>
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem' }}>
