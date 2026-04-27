@@ -1,0 +1,163 @@
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-panel-blue {
+  background-color: #004a99;
+  width: 280px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.logo-sidebar-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-logo, .large-white-logo-placeholder {
+  width: 150px;
+  height: auto;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+}
+
+.login-panel-white {
+  background-color: #ffffff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.login-content-wrapper {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text-container {
+  align-self: flex-start;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.header-text-container h1 {
+  margin: 0;
+  color: #000;
+  font-size: 32px;
+  font-weight: normal;
+}
+
+.blue-text {
+  color: #004a99;
+  font-weight: bold;
+}
+
+.subtitle {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: normal;
+  color: #000;
+  text-align: left;
+}
+
+.login-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.input-label {
+  font-size: 16px;
+  color: #333;
+  width: 100px;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  background-color: #f1f3f6;
+  border-radius: 4px;
+  padding: 10px;
+  flex: 1;
+}
+
+.input-icon {
+  color: #888;
+  margin-right: 15px;
+}
+
+.input-field input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+}
+
+.bottom-actions-container {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.forgot-link {
+  text-align: center;
+  font-size: 14px;
+  color: #004a99;
+  text-decoration: underline;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.login-btn {
+  background-color: #004a99;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  width: auto;
+}
