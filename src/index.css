@@ -54,15 +54,18 @@ a {
 }
 
 .sidebar-logo {
-  padding: 2rem;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2.5rem 0;
+  padding-left: 4.5rem;
 }
 
 .sidebar-logo img {
-  max-width: 150px;
+  width: 160px;
   height: auto;
+  display: block;
 }
 
 .sidebar-nav {
