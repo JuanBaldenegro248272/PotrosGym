@@ -1,12 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserPlus, Search, Fingerprint, UserCheck, UserX, Pencil, Trash2, Eye } from 'lucide-react';
+
+const API_URL = "http://localhost:8000";
 
 const Alumnos = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-
   const [alumnos, setAlumnos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const eliminarAlumno = (id) => {
+  const [nuevoAlumno, setNuevoAlumno] = useState({
+    nombre: '',
+    id: '',
+    estado: 'Activo',
+    huellaID: Math.floor(Math.random() * 100)
+  });
+
+  const fetchAlumnos = async () => {
+    try {
+      const response = await fetch(`${API_URL}/alumnos`);
+      const data = await response.json();
+      setAlumnos(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error al cargar alumnos:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAlumnos();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNuevoAlumno({ ...nuevoAlumno, [name]: value });
+  };
+
+  const guardarAlumno = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${API_URL}/alumnos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nuevoAlumno)
+      });
+
+      if (response.ok) {
+        setMostrarFormulario(false);
+        setNuevoAlumno({ nombre: '', id: '', estado: 'Activo', huellaID: Math.floor(Math.random() * 100) });
+        fetchAlumnos();
+      }
+    } catch (error) {
+      console.error("Error al guardar alumno:", error);
+    }
+  };
+
+  const eliminarAlumno = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este alumno?")) {
       setAlumnos(alumnos.filter(a => a.id !== id));
     }
@@ -32,11 +81,15 @@ const Alumnos = () => {
             Registrar Nuevo Integrante
           </h2>
 
-          <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <form onSubmit={guardarAlumno} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Nombre Completo</label>
               <input
+                name="nombre"
+                value={nuevoAlumno.nombre}
+                onChange={handleInputChange}
                 type="text"
+                required
                 placeholder="Ej. Juan Pérez García"
                 style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', outline: 'none' }}
               />
@@ -45,7 +98,11 @@ const Alumnos = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>ID / Matrícula</label>
               <input
+                name="id"
+                value={nuevoAlumno.id}
+                onChange={handleInputChange}
                 type="text"
+                required
                 placeholder="Ej. 2024005"
                 style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', outline: 'none' }}
               />
@@ -53,14 +110,19 @@ const Alumnos = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Estado Inicial</label>
-              <select style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'white' }}>
-                <option>Activo</option>
-                <option>Pendiente</option>
+              <select
+                name="estado"
+                value={nuevoAlumno.estado}
+                onChange={handleInputChange}
+                style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'white' }}
+              >
+                <option value="Activo">Activo</option>
+                <option value="Pendiente">Pendiente</option>
               </select>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Captura de Huella (PersonaGym.huellaID)</label>
+              <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Captura de Huella (Huella ID: {nuevoAlumno.huellaID})</label>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -100,7 +162,7 @@ const Alumnos = () => {
             />
           </div>
           <div style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
-            Mostrando {alumnos.length} alumnos registrados
+            {loading ? 'Cargando...' : `Mostrando ${alumnos.length} alumnos registrados`}
           </div>
         </div>
 
@@ -164,6 +226,11 @@ const Alumnos = () => {
               ))}
             </tbody>
           </table>
+          {alumnos.length === 0 && !loading && (
+            <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+              No hay alumnos registrados.
+            </div>
+          )}
         </div>
       </div>
     </div>
