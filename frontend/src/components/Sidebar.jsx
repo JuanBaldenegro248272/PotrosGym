@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Fingerprint, ShoppingCart, Users } from 'lucide-react';
+import { Home, Fingerprint, ShoppingCart, Users, Megaphone } from 'lucide-react';
 import logo from '../assets/logo.png';
 
 const Sidebar = () => {
@@ -38,6 +38,13 @@ const Sidebar = () => {
         >
           <ShoppingCart size={24} />
           Ventas
+        </NavLink>
+        <NavLink
+          to="/anuncios"
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          <Megaphone size={24} />
+          Anuncios
         </NavLink>
       </nav>
     </aside>

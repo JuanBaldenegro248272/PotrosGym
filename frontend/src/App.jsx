@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Accesos from './pages/Accesos';
 import Alumnos from './pages/Alumnos';
+import Anuncios from './pages/Anuncios';
 import Login from './pages/Login/Login';
 import './App.css';
 
@@ -15,6 +16,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="accesos" element={<Accesos />} />
           <Route path="alumnos" element={<Alumnos />} />
+          <Route path="anuncios" element={<Anuncios />} />
           <Route path="ventas" element={<div>Página de Ventas</div>} />
         </Route>
       </Routes>

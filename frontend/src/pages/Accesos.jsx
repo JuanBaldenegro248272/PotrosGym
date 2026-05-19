@@ -1,102 +1,100 @@
-import React, { useState } from 'react';
-import { Search, ChevronDown, MoreVertical, Calendar, Filter, UserCheck } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Calendar, Filter, Search, UserCheck } from 'lucide-react';
+
+const API_URL = 'http://localhost:8000';
 
 const Accesos = () => {
   const [terminoBusqueda, setTerminoBusqueda] = useState('');
-
   const [historialAccesos, setHistorialAccesos] = useState([]);
+  const [cargando, setCargando] = useState(true);
 
-  const renderizarEstado = (estado) => {
-    switch(estado) {
-      case 'Registrado':
-        return <span className="badge badge-success">Registrado</span>;
-      case 'Baja':
-        return <span className="badge badge-danger">Baja</span>;
-      case 'Pendiente':
-        return <span className="badge badge-warning">Pendiente</span>;
-      default:
-        return <span className="badge">{estado}</span>;
+  const cargarAccesos = async () => {
+    try {
+      const response = await fetch(`${API_URL}/accesos`);
+      const data = await response.json();
+      setHistorialAccesos(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setCargando(false);
     }
   };
+
+  useEffect(() => {
+    cargarAccesos();
+  }, []);
+
+  const accesosFiltrados = useMemo(() => {
+    const texto = terminoBusqueda.trim().toLowerCase();
+    if (!texto) return historialAccesos;
+
+    return historialAccesos.filter((acceso) => (
+      String(acceso.id).includes(texto)
+      || acceso.nombre.toLowerCase().includes(texto)
+      || String(acceso.huellaID).includes(texto)
+    ));
+  }, [historialAccesos, terminoBusqueda]);
+
+  const totalHoy = historialAccesos.filter((acceso) => {
+    const hoy = new Date().toISOString().slice(0, 10);
+    return acceso.fechaHora.startsWith(hoy);
+  }).length;
 
   return (
     <div className="page-container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1 className="page-title" style={{ marginBottom: 0 }}>Gestión de Accesos</h1>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <button className="btn-primary" style={{ width: 'auto', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Calendar size={18} />
-            Exportar Reporte
-          </button>
-        </div>
+        <h1 className="page-title" style={{ marginBottom: 0 }}>Gestion de Accesos</h1>
+        <button className="btn-primary" style={{ width: 'auto', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Calendar size={18} />
+          Exportar Reporte
+        </button>
       </div>
 
-      {/* Panel de Filtros */}
       <div className="card" style={{ padding: '1.5rem', marginBottom: '2rem', alignItems: 'stretch', textAlign: 'left' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '1.5rem', alignItems: 'end' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'end' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-              <Search size={14} style={{ marginRight: '4px' }} /> Buscar Usuario
+              <Search size={14} style={{ marginRight: '4px' }} /> Buscar usuario
             </label>
-            <input 
-              type="text" 
-              placeholder="ID o Nombre completo..." 
+            <input
+              type="text"
+              placeholder="ID, nombre o huella..."
               value={terminoBusqueda}
-              onChange={(e) => setTerminoBusqueda(e.target.value)}
+              onChange={(event) => setTerminoBusqueda(event.target.value)}
               style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', outline: 'none' }}
             />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Tipo</label>
-            <select style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'white' }}>
-              <option>Todos</option>
-              <option>Alumno</option>
-              <option>Entrenador</option>
-              <option>Comunidad</option>
-            </select>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Fecha</label>
-            <select style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'white' }}>
-              <option>Hoy</option>
-              <option>Última semana</option>
-              <option>Este mes</option>
-            </select>
-          </div>
-
-          <button className="btn-primary" style={{ height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-            <Filter size={18} /> Aplicar Filtros
+          <button
+            className="btn-primary"
+            onClick={cargarAccesos}
+            style={{ height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+            type="button"
+          >
+            <Filter size={18} /> Actualizar
           </button>
         </div>
       </div>
 
-      {/* Resumen de Accesos */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
         <div className="card">
-          <h3 className="card-title">Total Hoy</h3>
-          <div className="card-value" style={{ margin: '0.5rem 0' }}>120</div>
-          <div className="badge badge-success">▲ +5%</div>
+          <h3 className="card-title">Total hoy</h3>
+          <div className="card-value" style={{ margin: '0.5rem 0' }}>{totalHoy}</div>
         </div>
         <div className="card">
-          <h3 className="card-title">Alumnos</h3>
-          <div className="card-value" style={{ margin: '0.5rem 0' }}>95</div>
+          <h3 className="card-title">Total registrados</h3>
+          <div className="card-value" style={{ margin: '0.5rem 0' }}>{historialAccesos.length}</div>
         </div>
         <div className="card">
-          <h3 className="card-title">Comunidad</h3>
-          <div className="card-value" style={{ margin: '0.5rem 0' }}>18</div>
-        </div>
-        <div className="card">
-          <h3 className="card-title">Puerta Activa</h3>
+          <h3 className="card-title">Puerta</h3>
           <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success)', fontWeight: '700' }}>
-            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'currentColor' }}></div>
-            En línea
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'currentColor' }} />
+            En linea
           </div>
         </div>
       </div>
 
-      <h2 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem', color: 'var(--primary-blue)' }}>Historial Reciente</h2>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem', color: 'var(--primary-blue)' }}>Historial reciente</h2>
       <div className="card" style={{ padding: '0', alignItems: 'stretch' }}>
         <div className="table-container" style={{ margin: 0, border: 'none' }}>
           <table>
@@ -104,15 +102,26 @@ const Accesos = () => {
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Fecha y Hora</th>
+                <th>Huella</th>
+                <th>Fecha y hora</th>
                 <th>Estado</th>
-                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {historialAccesos.map((acceso, i) => (
-                <tr key={i}>
+              {cargando && (
+                <tr>
+                  <td colSpan="5">Cargando accesos...</td>
+                </tr>
+              )}
+
+              {!cargando && accesosFiltrados.length === 0 && (
+                <tr>
+                  <td colSpan="5">No hay accesos para mostrar.</td>
+                </tr>
+              )}
+
+              {accesosFiltrados.map((acceso) => (
+                <tr key={acceso.id}>
                   <td style={{ fontWeight: '700' }}>{acceso.id}</td>
                   <td style={{ textAlign: 'left', paddingLeft: '2rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -120,12 +129,9 @@ const Accesos = () => {
                       {acceso.nombre}
                     </div>
                   </td>
-                  <td>{acceso.tipoUsuario}</td>
-                  <td style={{ fontSize: '0.85rem', whiteSpace: 'pre-line', lineHeight: '1.2' }}>{acceso.fechaHora}</td>
-                  <td>{renderizarEstado(acceso.estado)}</td>
-                  <td>
-                    <button style={{ color: 'var(--text-secondary)' }}><MoreVertical size={20} /></button>
-                  </td>
+                  <td>{acceso.huellaID}</td>
+                  <td style={{ fontSize: '0.85rem' }}>{acceso.fechaHora}</td>
+                  <td><span className="badge badge-success">{acceso.estado}</span></td>
                 </tr>
               ))}
             </tbody>
